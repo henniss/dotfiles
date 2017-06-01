@@ -1,0 +1,21 @@
+[user]
+	name = Harris Enniss
+	email = henniss@transphormusa.com
+[alias]
+	lg = log --graph --oneline --decorate -25
+	lga = log --graph --oneline --decorate --all
+	fpush = push --force-with-lease
+	lgt = log --graph --oneline --decorate --branches --remotes --tags --simplify-by-decoration
+	co = checkout
+	fixup = commit --fixup
+	upush = push --set-upstream origin HEAD
+        merge-to = "!gitmergeto() { git push \"`git rev-parse --show-toplevel`\" `git rev-parse --abbrev-ref HEAD`:$1; } && gitmergeto"
+
+[core]
+	autocrlf = input
+	editor = emacs -Q -nw
+[apply]
+	whitespace = fix
+[rebase]
+	autoSquash = True
+	stat = False

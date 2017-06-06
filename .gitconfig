@@ -19,3 +19,5 @@
 [rebase]
 	autoSquash = True
 	stat = False
+[diff]
+	algorithm = patience

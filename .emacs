@@ -10,7 +10,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (flycheck elpy material-theme better-defaults))))
+ '(package-selected-packages
+   (quote
+    (jinja2-mode markdown-mode flycheck elpy material-theme better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -49,10 +51,19 @@
 ;; Basic customization
 ;; -----------------------------------------------------------------
 
+;; Prevent ido from looking in other directories to autocomplete
+;; filenames.
+(setq ido-auto-merge-work-directories-length -1)
+
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
-(elpy-enable)
+(elpy-enable) ;; better python mode
+
+;; Use flycheck instead of flymake
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+(add-hook 'python-mode-hook
+          (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))

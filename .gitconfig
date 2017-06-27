@@ -17,7 +17,15 @@
 [apply]
 	whitespace = fix
 [rebase]
-	autoSquash = True
+	autosquash = true
 	stat = False
 [diff]
 	algorithm = patience
+[merge]
+	defaultToUpstream = true
+[branch]
+	autosetupmerge = always
+[rerere]
+	enabled = true
+[advice]
+	detachedHead = false

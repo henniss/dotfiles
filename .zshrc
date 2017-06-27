@@ -1,7 +1,3 @@
-ds(){screen -d -m "$@";}
-space(){ds \emacs "$@";}
-
-
 # Options passed to LESS
 # ignore case when searching, quit if just one screen, disables init/deinit, something to do with color,
 export LESS=-iFXR
@@ -111,6 +107,11 @@ unsetopt AUTO_CD
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias fix="\emacs -Q -nw"
-alias emacs="fix"
+alias fix="command emacs -Q -nw"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias emacs="_emacs"
+
+ds(){screen -d -m "$@";}
+emacs(){ds \emacs "$@";}
+
+bindkey "\C-w" kill-region

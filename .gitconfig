@@ -10,6 +10,7 @@
 	fixup = commit --fixup
 	upush = push --set-upstream origin HEAD
         merge-to = "!gitmergeto() { git push \"`git rev-parse --show-toplevel`\" `git rev-parse --abbrev-ref HEAD`:$1; } && gitmergeto"
+        bclean = "!git branch --merged | egrep -v \"(^\\*|development|dev|master)\" "
 
 [core]
 	autocrlf = input
@@ -19,6 +20,7 @@
 [rebase]
 	autosquash = true
 	stat = False
+	missingCommitsCheck = warn
 [diff]
 	algorithm = patience
 [merge]
@@ -29,3 +31,5 @@
 	enabled = true
 [advice]
 	detachedHead = false
+[fetch]
+	prune = true

@@ -113,7 +113,7 @@
 If SUBMODE is not provided, use `LANG-mode' by default."
   (let ((class (intern (concat "markdown-" lang)))
         (submode (or submode (intern (concat lang "-mode"))))
-        (front (concat "^```" lang "[\n\r]+"))
+        (front (concat "^```\s*" lang "[\n\r]+"))
         (back "^```"))
     (mmm-add-classes (list (list class :submode submode :front front :back back)))
     (mmm-add-mode-ext-class 'markdown-mode nil class)

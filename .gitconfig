@@ -18,6 +18,21 @@
         # lga: (a)ll. Show entire repo as a graph.
         lga = log --graph --oneline --decorate --all --boundary
 
+        # Smart summary. If we target a child of master, show all
+        # branches, excluding parents of master.  If we target
+        # something forked from master, only show that branch, and
+        # only up to where it merges with master (anything else is too
+        # verbose).
+        
+        lgs = "!lgs() { \
+sha=$(git rev-parse --default HEAD $1); \
+if [[ $(git rev-list master ^$sha) ]]; then \
+    git log --graph --oneline --decorate --boundary $sha --not $(git merge-base master $sha); \
+else \
+    git log --graph --oneline --decorate --boundary --all $sha --not master; \
+fi; \
+}; lgs"
+
         # lgt: (t)opilogical. Show only decorations.
 	lgt = log --graph --oneline --decorate --branches --remotes --tags --simplify-by-decoration --boundary
 

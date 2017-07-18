@@ -10,10 +10,12 @@
         # The not condition basically looks for the merge base of the
         # most recent commit to a branch, together with master@{1} (or
         # master@{0} as a fallback)
-        lg = "!git log --graph --oneline --decorate --all --boundary --not $(git merge-base $(git rev-list --branches -n 1) $(git rev-list master@{1} 2> /dev/null || git rev-list master))"
+        #lg = "!git log --graph --oneline --decorate --all --boundary --not $(git merge-base $(git rev-list --branches -n 1) $(git rev-list master@{1} 2> /dev/null || git rev-list master))"
 
+        lg = "log --graph --oneline --decorate --all --boundary --not master"
         # lgd: (d)etails. Similar to lg, but only up to master@{0}, and with full commit message. 
-	lgd = "!git log --graph --decorate --all --boundary --not $(git merge-base $(git rev-list --branches -n 1) master)"
+        #lgd = "!git log --graph --decorate --all --boundary --not $(git merge-base $(git rev-list --branches -n 1) master)"
+        lgd = "log --graph --decorate --boundary HEAD --not master"
 
         # lga: (a)ll. Show entire repo as a graph. 
         lga = log --graph --oneline --decorate --all --boundary
@@ -47,7 +49,7 @@
 [branch]
 	autosetupmerge = true
 [rerere]
-	enabled = true
+	enabled = false
 [advice]
 	detachedHead = false
 [fetch]

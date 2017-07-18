@@ -5,7 +5,7 @@
         # All log commands should capture topology clearly, unless
         # indicated otherwise.
 
-        # lg: Show a short summary of recent work. 
+        # lg: Show a short summary of recent work.
 
         # The not condition basically looks for the merge base of the
         # most recent commit to a branch, together with master@{1} (or
@@ -15,10 +15,10 @@
         lg = "!git log --graph --oneline --decorate --all --boundary --not $(git merge-base HEAD master)"
         lgd = "log --graph --decorate --boundary HEAD --not master"
 
-        # lga: (a)ll. Show entire repo as a graph. 
+        # lga: (a)ll. Show entire repo as a graph.
         lga = log --graph --oneline --decorate --all --boundary
 
-        # lgt: (t)opilogical. Show only decorations. 
+        # lgt: (t)opilogical. Show only decorations.
 	lgt = log --graph --oneline --decorate --branches --remotes --tags --simplify-by-decoration --boundary
 
 	fpush = push --force-with-lease
@@ -29,7 +29,9 @@
         merge-to = "!gitmergeto() { git push \"`git rev-parse --show-toplevel`\" `git rev-parse --abbrev-ref HEAD`:$1; } && gitmergeto"
         bclean = "!git branch --merged | egrep -v \"(^\\*|development|dev|master)\" "
 	idiff = diff --cached
+        rdiff = "!f(){ sha=$(git rev-parse --default HEAD $1); git diff $(git merge-base master $sha); }; f"
 	fa = fetch --all
+	off = checkout --detach
 
 [core]
 	autocrlf = input

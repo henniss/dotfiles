@@ -47,6 +47,11 @@ fi; \
         rdiff = "!f(){ sha=$(git rev-parse --default HEAD $1); git diff $(git merge-base master $sha); }; f"
 	fa = fetch --all
 	off = checkout --detach
+        deleteme = "! branch=$(git rev-parse --abbrev-ref HEAD); git checkout --detach; git branch -D $branch"
+
+        ammend = "!f(){ git commit --amend $1; }; f"
+        # List aliases
+        la = "!f(){ git config -l | grep -e \"^alias\\.\" | cut -c 7- | sort | grep --color=always -e \"^$1\\S*=\" ; }; f"
 
 [core]
 	autocrlf = input

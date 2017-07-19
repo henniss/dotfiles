@@ -70,6 +70,8 @@
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
+(add-hook 'flycheck-mode-hook #'flycheck-virtualenv-setup)
+
 (add-hook 'python-mode-hook
           (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 

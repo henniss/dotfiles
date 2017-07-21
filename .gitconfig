@@ -41,15 +41,28 @@ fi; \
 	co = checkout
 	fixup = commit --fixup
 	upush = push --set-upstream origin HEAD
-        merge-to = "!gitmergeto() { git push \"`git rev-parse --show-toplevel`\" `git rev-parse --abbrev-ref HEAD`:$1; } && gitmergeto"
-        bclean = "!git branch --merged | egrep -v \"(^\\*|development|dev|master)\" "
-	idiff = diff --cached
-        rdiff = "!f(){ sha=$(git rev-parse --default HEAD $1); git diff $(git merge-base master $sha); }; f"
-	fa = fetch --all
-	off = checkout --detach
-        deleteme = "! branch=$(git rev-parse --abbrev-ref HEAD); git checkout --detach; git branch -D $branch"
 
-        ammend = "!f(){ git commit --amend $1; }; f"
+        # Equivalent to checking out target and merging HEAD with it. 
+        merge-to = "!gitmergeto() { git push \"`git rev-parse --show-toplevel`\" `git rev-parse --abbrev-ref HEAD`:$1; } && gitmergeto"
+
+        # List branches that can be cleaned up.
+        bclean = "!git branch --merged | egrep -v \"(^\\*|development|dev|master)\" "
+
+        # Diff index.
+	idiff = diff --cached
+        # Diff against merge-base with master. 
+        rdiff = "!f(){ sha=$(git rev-parse --default HEAD $1); git diff $(git merge-base master $sha); }; f"
+
+        # Fetch all
+        fa = fetch --all
+
+        # Detach.
+	off = checkout --detach
+        # Delete current branch and detach.
+        deleteme = "! branch=$(git rev-parse --abbrev-ref HEAD); git checkout --detach; git branch -D $branch"
+        
+        amend = "!f(){ git commit --amend $1; }; f"
+        
         # List aliases
         la = "!f(){ git config -l | grep -e \"^alias\\.\" | cut -c 7- | sort | grep --color=always -e \"^$1\\S*=\" ; }; f"
 

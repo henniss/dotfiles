@@ -7,8 +7,9 @@ stty icrnl
 
 # Enable VirtualEnvWrapper and set the needed variables.
 export WORKON_HOME=$HOME/envs
-export PROJECT_HOME=$HOME/gitlab
-source /usr/bin/virtualenvwrapper.sh
+export PROJECT_HOME=$HOME/code
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source $HOME/.local/bin/virtualenvwrapper.sh
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$PATH
@@ -25,7 +26,7 @@ export ZSH=/home/henniss/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="afowler"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -109,9 +110,7 @@ unsetopt AUTO_CD
 
 alias fix="command emacs -Q -nw"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias emacs="_emacs"
 
 ds(){screen -d -m "$@";}
-emacs(){ds \emacs "$@";}
 
 bindkey "\C-w" kill-region

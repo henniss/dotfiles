@@ -12,6 +12,7 @@
         # master@{0} as a fallback)
         #lg = "!git log --graph --oneline --decorate --all --boundary --not $(git merge-base $(git rev-list --branches -n 1) $(git rev-list master@{1} 2> /dev/null || git rev-list master))"
 
+        ver = "!ver(){ git tag -a -m \"$1\" $@; }; ver"
         lg = "!git log --graph --oneline --decorate --all --boundary --not $(git merge-base HEAD master)"
         lgd = "log --graph --decorate --boundary HEAD --not master"
 

@@ -67,6 +67,7 @@
 ;; Prevent ido from looking in other directories to autocomplete
 ;; filenames.
 (setq ido-auto-merge-work-directories-length -1)
+(add-to-list 'ido-ignore-files "\\`__pycache__/")
 
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme

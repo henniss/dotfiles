@@ -12,7 +12,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powershell lorem-ipsum mmm-mode rust-mode transpose-frame yaml-mode py-autopep8 magit jinja2-mode markdown-mode flycheck elpy material-theme better-defaults))))
+    (powershell lorem-ipsum mmm-mode rust-mode transpose-frame yaml-mode magit jinja2-mode markdown-mode flycheck elpy material-theme better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -42,7 +42,6 @@
     elpy
     material-theme
     flycheck
-    py-autopep8
     yaml-mode
     markdown-mode
     transpose-frame
@@ -72,6 +71,7 @@
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
+(setq elpy-rpc-backend "rope")
 (elpy-enable) ;; better python mode
 
 ;; Use flycheck instead of flymake
@@ -79,13 +79,13 @@
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-(add-hook 'flycheck-mode-hook #'flycheck-virtualenv-setup)
+;; (add-hook 'flycheck-mode-hook #'flycheck-virtualenv-setup)
 
 (add-hook 'python-mode-hook
           (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+;;(require 'py-autopep8)
+;;(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 (add-hook 'elpy-mode-hook (lambda () "Turn off company mode" (company-mode 0)))
 
 ;; Weird, but in practice if I'm editing an html file, it's a Jinja2 template.
@@ -138,3 +138,4 @@ If SUBMODE is not provided, use `LANG-mode' by default."
         "markdown" "python" "r" "ruby" "sql" "stata" "xml"))
 
 (my-mmm-markdown-auto-class "cpp" 'c++-mode)
+(put 'erase-buffer 'disabled nil)

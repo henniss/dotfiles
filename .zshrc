@@ -6,12 +6,13 @@ export LESS=-iFXR
 stty icrnl
 
 # Enable VirtualEnvWrapper and set the needed variables.
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=$HOME/envs
 export PROJECT_HOME=$HOME/gitlab
-source /usr/bin/virtualenvwrapper.sh
+source $HOME/.local/bin/virtualenvwrapper.sh
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$PATH
+export PATH=$PATH:$HOME/.local/bin/:$HOME/bin
 
 # something like this *should* work:
 #http://unix.stackexchange.com/questions/15228/zsh-tab-completion-only-complete-files-and-not-binaries

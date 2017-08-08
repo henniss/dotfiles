@@ -62,44 +62,52 @@
 
 ;; Basic customization
 ;; -----------------------------------------------------------------
-
-;; Prevent ido from looking in other directories to autocomplete
-;; filenames.
-(setq ido-auto-merge-work-directories-length -1)
-(add-to-list 'ido-ignore-files "\\`__pycache__/")
-
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
 (global-linum-mode t) ;; enable line numbers globally
-(setq elpy-rpc-backend "rope")
-(elpy-enable) ;; better python mode
+;; global auto revert mode
+(global-auto-revert-mode t)
 
+
+;; IDO
+;; -----------------------------------------------------------------
+(add-to-list 'ido-ignore-files "\\`__pycache__/")
+;; Prevent ido from looking in other directories to autocomplete
+;; filenames.
+(setq ido-auto-merge-work-directories-length -1)
+
+
+;; Elpy
+;; ------------------------------------------------------------------
+(elpy-enable) ;; better python mode
+(setq elpy-rpc-backend "jedi")
 ;; Use flycheck instead of flymake
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-;; (add-hook 'flycheck-mode-hook #'flycheck-virtualenv-setup)
-
 (add-hook 'python-mode-hook
           (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
-;;(require 'py-autopep8)
-;;(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-(add-hook 'elpy-mode-hook (lambda () "Turn off company mode" (company-mode 0)))
+(setq elpy-rpc-python-command "python3")
+(setq python-shell-interpreter "python3")
 
+;; Company mode is used for auto-completion. Turn it off if
+;; tab-completion is too annoying.
+;; (add-hook 'elpy-mode-hook (lambda () "Turn off company mode" (company-mode 0)))
+
+;; Modes
+;; -------------------------------------------------------------------
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 ;; Weird, but in practice if I'm editing an html file, it's a Jinja2 template.
 (add-to-list 'auto-mode-alist '("\\.html\\'" . jinja2-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
-
+;; Yas
+;; -------------------------------------------------------------------
 
 ;; Rebind yas. I use tab too often to want it to be expanding things.
 ;; From https://stackoverflow.com/questions/14066526/unset-tab-binding-for-yasnippet
 ;(yas-global-mode 1)
-
-;; The following is optional.
-(define-key yas-minor-mode-map (kbd "C-x C-y")     'yas-expand)
 
 ;; Strangely, just redefining one of the variations below won't work.
 ;; All rebinds seem to be needed.
@@ -107,11 +115,10 @@
 (define-key yas-minor-mode-map (kbd "TAB")    nil)
 (define-key yas-minor-mode-map (kbd "<tab>")  nil)
 
+;; The following is optional.
+(define-key yas-minor-mode-map (kbd "C-x C-y")     'yas-expand)
 
-;; global auto revert mode
-(global-auto-revert-mode t)
-
-;; mmm-mode customizations
+;; mmm-mode
 ;; ---------------------------------------------------------------------------
 
 (require 'mmm-mode)

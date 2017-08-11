@@ -92,9 +92,11 @@
 (setq elpy-rpc-python-command "python3")
 (setq python-shell-interpreter "python3")
 
-;; Company mode is used for auto-completion. Turn it off if
-;; tab-completion is too annoying.
-;; (add-hook 'elpy-mode-hook (lambda () "Turn off company mode" (company-mode 0)))
+;; Company mode is used for auto-completion. Turn it off because tab
+;; completion is annoying.
+(add-hook 'elpy-mode-hook (lambda () "Turn off company mode" (company-mode 0)))
+
+
 
 ;; Modes
 ;; -------------------------------------------------------------------
@@ -117,6 +119,9 @@
 
 ;; The following is optional.
 (define-key yas-minor-mode-map (kbd "C-x C-y")     'yas-expand)
+
+;;
+(add-hook 'js-mode-hook 'yas-minor-mode)
 
 ;; mmm-mode
 ;; ---------------------------------------------------------------------------

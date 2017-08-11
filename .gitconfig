@@ -16,6 +16,8 @@
         lg = "!git log --graph --oneline --decorate --all --boundary --not $(git merge-base HEAD master)"
         lgd = "log --graph --decorate --boundary HEAD --not master"
 
+        wlga = "!watch --color git log --graph --decorate --format=short --color"
+
         # lga: (a)ll. Show entire repo as a graph.
         lga = log --graph --oneline --decorate --all --boundary
 

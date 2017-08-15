@@ -110,6 +110,8 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 ;; Weird, but in practice if I'm editing an html file, it's a Jinja2 template.
 (add-to-list 'auto-mode-alist '("\\.html\\'" . jinja2-mode))
+;; CamelCase aware editing.
+(add-hook 'prog-mode-hook 'subword-mode)
 
 ;; Yas
 ;; -------------------------------------------------------------------

@@ -69,6 +69,13 @@
 (global-auto-revert-mode t)
 
 
+;; cleanup whitespace on kill-line
+(defadvice kill-line (after kill-line-cleanup-whitespace activate compile)
+  "cleanup whitespace on kill-line"
+  (if (not (bolp))
+      (delete-region (point) (progn (skip-chars-forward " \t") (point)))))
+
+
 ;; IDO
 ;; -----------------------------------------------------------------
 (add-to-list 'ido-ignore-files "\\`__pycache__/")

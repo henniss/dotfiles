@@ -12,7 +12,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powershell lorem-ipsum mmm-mode rust-mode transpose-frame yaml-mode magit jinja2-mode markdown-mode flycheck elpy material-theme better-defaults))))
+    (powershell lorem-ipsum mmm-mode rust-mode transpose-frame yaml-mode py-autopep8 magit jinja2-mode markdown-mode flycheck elpy material-theme better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -42,6 +42,7 @@
     elpy
     material-theme
     flycheck
+    py-autopep8
     yaml-mode
     markdown-mode
     transpose-frame
@@ -83,7 +84,6 @@
 ;; filenames.
 (setq ido-auto-merge-work-directories-length -1)
 
-
 ;; Elpy
 ;; ------------------------------------------------------------------
 (elpy-enable) ;; better python mode
@@ -99,8 +99,12 @@
 (setq elpy-rpc-python-command "python3")
 (setq python-shell-interpreter "python3")
 
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
 ;; Company mode is used for auto-completion. Turn it off because tab
 ;; completion is annoying.
+
 (add-hook 'elpy-mode-hook (lambda () "Turn off company mode" (company-mode 0)))
 
 
@@ -159,4 +163,3 @@ If SUBMODE is not provided, use `LANG-mode' by default."
         "markdown" "python" "r" "ruby" "sql" "stata" "xml"))
 
 (my-mmm-markdown-auto-class "cpp" 'c++-mode)
-(put 'erase-buffer 'disabled nil)

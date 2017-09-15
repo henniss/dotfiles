@@ -74,8 +74,8 @@ plugins=(git colored-man-pages gitignore pip)
 
 source $ZSH/oh-my-zsh.sh
 
-hash -d win=/cygdrive/c/Users/henniss/
-hash -d vs="/cygdrive/c/Users/henniss/Documents/Visual Studio 2015"
+hash -d windows=/cygdrive/c/Users/henniss/
+hash -d vs="/cygdrive/c/Users/henniss/Documents/Visual Studio 2015/Projects"
 
 # User configuration
 

@@ -81,4 +81,3 @@
 	detachedHead = false
 [fetch]
 	prune = true
-

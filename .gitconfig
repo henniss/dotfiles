@@ -13,6 +13,7 @@
         #lg = "!git log --graph --oneline --decorate --all --boundary --not $(git merge-base $(git rev-list --branches -n 1) $(git rev-list master@{1} 2> /dev/null || git rev-list master))"
 
         ver = "!ver(){ git tag -a -m \"$1\" $@; }; ver"
+        ll = "log --graph --oneline --decorate"
         lg = "!git log --graph --oneline --decorate --all --boundary --not $(git merge-base HEAD master)"
         lgd = "log --graph --decorate --boundary HEAD --not master"
 
@@ -20,6 +21,8 @@
 
         # lga: (a)ll. Show entire repo as a graph.
         lga = log --graph --oneline --decorate --all --boundary
+
+        follow = "!follow(){ git log -p -M --follow --stat -- $@; }; follow"
 
         # Smart summary. If we target a child of master, show all
         # branches, excluding parents of master.  If we target
@@ -69,6 +72,9 @@ fi; \
         # List aliases
         la = "!f(){ git config -l | grep -e \"^alias\\.\" | cut -c 7- | sort | grep --color=always -e \"^$1\\S*=\" ; }; f"
 
+        # Fetch merge request id $2 from remote $1.
+        mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+
 [core]
 	autocrlf = input
 	editor = emacs -Q -nw
@@ -90,3 +96,4 @@ fi; \
 	detachedHead = false
 [fetch]
 	prune = true
+

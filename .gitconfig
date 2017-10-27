@@ -28,6 +28,9 @@
         # Follow a single file.
         follow = "!follow(){ git log -p -M --follow --stat \"${@:2}\" -- $1; }; follow"
 
+        # Checkout next commit on path to $1
+        next = "!f(){ echo \"Advancing towards ${1:-${GIT_LAST:-master}}\"; git checkout $(git rev-list HEAD..$(git rev-parse --default ${GIT_LAST:-master} $1 ) | tail -1); }; f"
+
         # Never ever ever use --force
 	fpush = push --force-with-lease
 

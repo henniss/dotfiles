@@ -9,12 +9,11 @@
         ll = "log --graph --oneline --decorate"
         lga = "!git ll --all"
 
-        # Get the name of the closest parent tag.
-        last-tag = describe --abbrev=0
-        # Get the first 'root' parent (with no parents of its own)
-        root = "!git rev-list --max-parents=0 HEAD | head -n 1"
-        # The closest parent tag, or otherwise the root of this commit.
-        anchor = "!git last-tag 2> /dev/null || git root"
+        # Get the name of the closest parent tag, or the root if no
+        # parent tag available.
+        last-tag = describe --abbrev=0 --always
+        # Get the all 'root' parents (those with no parents of their own)
+        root = "!git rev-list --max-parents=0 $(git rev-parse --default HEAD $@)"
 
         # Log only up to the anchor.
 
@@ -24,7 +23,7 @@
 
         # --not $anchor --not is needed so that any extra arguments
         # passed don't get applied with ^ inverted.
-        lgt = "!f(){ anchor=$(git rev-list -n 1 $(git anchor)); head=$(git rev-list -n 1 HEAD); if [[ $head = $anchor ]]; then git ll --boundary -1 \"$@\" ; else git ll --boundary HEAD --not $anchor --not \"$@\"; fi; }; f"
+        lgt = "!f(){ anchor=$(git rev-list -n 1 $(git last-tag)); head=$(git rev-list -n 1 HEAD); if [[ $head = $anchor ]]; then git ll --boundary -1 \"$@\" ; else git ll --boundary HEAD --not $anchor --not \"$@\"; fi; }; f"
         
         # Follow a single file.
         follow = "!follow(){ git log -p -M --follow --stat \"${@:2}\" -- $1; }; follow"

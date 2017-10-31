@@ -11,9 +11,15 @@
 
         # Get the name of the closest parent tag, or the root if no
         # parent tag available.
-        last-tag = describe --abbrev=0 --always
+        last-tag = describe --abbrev=0 --tags
         # Get the all 'root' parents (those with no parents of their own)
         root = "!git rev-list --max-parents=0 $(git rev-parse --default HEAD $@)"
+        # Is $1 a child of $2?
+        descendant-of = "!f(){ [[ $(git merge-base $1 $2) = $(git rev-parse $2^{commit}) ]]; }; f"
+        # List of all tags/heads which are children of $1
+        descendants = "!f(){ git describe --always --all $(git for-each-ref --format=\"%(objectname)\" --contains $1 \"${@:2}\"); }; f"
+        # List of all tags which are parents of $1
+        ancestors = "!f(){ git describe --always --all $(git for-each-ref --format=\"%(objectname)\" --merged $1 \"${@:2}\"); }; f"
 
         # Log only up to the anchor.
 
@@ -24,11 +30,12 @@
         # --not $anchor --not is needed so that any extra arguments
         # passed don't get applied with ^ inverted.
         lgt = "!f(){ anchor=$(git rev-list -n 1 $(git last-tag)); head=$(git rev-list -n 1 HEAD); if [[ $head = $anchor ]]; then git ll --boundary -1 \"$@\" ; else git ll --boundary HEAD --not $anchor --not \"$@\"; fi; }; f"
-        
+
         # Follow a single file.
         follow = "!follow(){ git log -p -M --follow --stat \"${@:2}\" -- $1; }; follow"
 
-        # Checkout next commit on path to $1
+        prev = checkout HEAD^1
+        # Checkout next commit on path to $1 or GIT_LAST or master
         next = "!f(){ echo \"Advancing towards ${1:-${GIT_LAST:-master}}\"; git checkout $(git rev-list HEAD..$(git rev-parse --default ${GIT_LAST:-master} $1 ) | tail -1); }; f"
 
         # Never ever ever use --force
@@ -47,12 +54,13 @@
 
         # Diff index against commit.
 	idiff = diff --cached
-        # Diff against merge-base with master. 
+        # Diff against merge-base with master.
         rdiff = "!f(){ sha=$(git rev-parse --default HEAD $1); git diff $(git merge-base master $sha); }; f"
+        wdiff = diff --word-diff
 
         # Delete current branch and detach.
         deleteme = "! branch=$(git rev-parse --abbrev-ref HEAD); git checkout --detach; git branch -D $branch"
-        
+
         # Fetch merge request id $2 from remote $1.
         # (Lets you checkout out a MR without having to `remote add` the source repo.)
         mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -

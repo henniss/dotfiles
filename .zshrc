@@ -108,7 +108,8 @@ unsetopt AUTO_CD
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias fix="command emacs -Q -nw"
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+# Hackish workaround -- this ensures config ignores $HOME/.gitconfig
+alias config='GIT_DIR=$HOME/.cfg/ GIT_WORK_TREE=$HOME HOME=/home/henniss/git_config_noglobal /usr/bin/git'
 alias emacs="_emacs"
 
 ds(){screen -d -m "$@";}

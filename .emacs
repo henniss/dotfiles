@@ -12,7 +12,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (browse-kill-ring powershell lorem-ipsum mmm-mode rust-mode transpose-frame yaml-mode py-autopep8 magit jinja2-mode markdown-mode flycheck elpy material-theme better-defaults))))
+    (rjsx-mode browse-kill-ring powershell lorem-ipsum mmm-mode rust-mode transpose-frame yaml-mode py-autopep8 magit jinja2-mode markdown-mode flycheck elpy material-theme better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

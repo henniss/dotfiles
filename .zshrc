@@ -118,6 +118,7 @@ alias fix="command emacs -Q -nw"
 alias config='GIT_DIR=$HOME/.cfg/ GIT_WORK_TREE=$HOME HOME=/home/henniss/git_config_noglobal /usr/bin/git'
 alias emacs="_emacs"
 alias npx="npx --no-install"
+alias s="f () { setopt verbose local_options; source ./.env; }; f"
 
 ds(){screen -d -m "$@";}
 emacs(){ds \emacs "$@";}

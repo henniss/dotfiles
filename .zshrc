@@ -7,12 +7,17 @@ stty icrnl
 
 # Enable VirtualEnvWrapper and set the needed variables.
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/bin/virtualenv3
 export WORKON_HOME=$HOME/envs
 export PROJECT_HOME=$HOME/gitlab
 source $HOME/.local/bin/virtualenvwrapper.sh
 
+# Winpython paths:
+WINPY32="/cygdrive/c/WinPython-32bit-2.7.10.3/python-2.7.10/python.exe"
+WINPY64="/cygdrive/c/WinPython-64bit-3.5.3.0Qt5/python-3.5.3.amd64/python.exe"
+
 # If you come from bash you might have to change your $PATH.
-export PATH=$PATH:$HOME/.local/bin/:$HOME/bin
+export PATH=$PATH:/cygdrive/c/Users/henniss/AppData/Roaming/npm:/$HOME/.local/bin/:$HOME/bin
 
 # something like this *should* work:
 #http://unix.stackexchange.com/questions/15228/zsh-tab-completion-only-complete-files-and-not-binaries
@@ -112,6 +117,7 @@ alias fix="command emacs -Q -nw"
 # Hackish workaround -- this ensures config ignores $HOME/.gitconfig
 alias config='GIT_DIR=$HOME/.cfg/ GIT_WORK_TREE=$HOME HOME=/home/henniss/git_config_noglobal /usr/bin/git'
 alias emacs="_emacs"
+alias npx="npx --no-install"
 
 ds(){screen -d -m "$@";}
 emacs(){ds \emacs "$@";}

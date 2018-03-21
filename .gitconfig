@@ -7,7 +7,8 @@
 
         # Various log commands.
         ll = "log --graph --oneline --decorate"
-        lga = "!git ll --all"
+        lga = "!git ll --branches --remotes HEAD"
+        lgaa = "!git ll --all"
 
         # Get the name of the closest parent tag, or the root if no
         # parent tag available.
@@ -50,7 +51,7 @@
 	upush = push --set-upstream origin HEAD
 
         # List branches that have been merged into master.
-        bclean = "!git branch --merged master | egrep -v \"(^\\*|master)\" "
+        bclean = "!git branch --merged master | egrep -v \"(^\\*|master|dev)\" "
 
         # Diff index against commit.
 	idiff = diff --cached
@@ -67,6 +68,15 @@
 
         # Safer version of reset --hard. Contents are still available through reflog
         wipe = !git add -A && git commit -qnm 'WIPE SAVEPOINT' && git reset HEAD~ --hard
+
+        untracked = ls-files --other --directory
+        tracked = ls-files --directory
+        merge-into = !sh -c '_CURRENT_BRANCH=$(git symbolic-ref --short HEAD) && git checkout ${1:-master} && git merge $_CURRENT_BRANCH && git checkout $_CURRENT_BRANCH' -
+
+        # From https://stackoverflow.com/a/41008657/7864278
+        archive-ref = "!git update-ref refs/archive/$(date '+%Y%m%d-%s')"
+        list-archive-ref = for-each-ref --sort=-authordate --format='%(refname) %(objectname:short) %(contents:subject)' refs/archive/
+
 [core]
 	autocrlf = input
 	editor = emacs -Q -nw
@@ -89,3 +99,5 @@
 	detachedHead = false
 [fetch]
 	prune = true
+[push]
+	followTags = true

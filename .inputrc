@@ -1,0 +1,10 @@
+# Respect default shortcuts.
+$include /etc/inputrc
+
+## arrow up
+"\e[A":history-search-backward
+## arrow down
+"\e[B":history-search-forward
+# Ignore case when tab-completing
+# https://askubuntu.com/questions/87061/can-i-make-tab-auto-completion-case-insensitive-in-bash
+set completion-ignore-case On

@@ -4,12 +4,34 @@
 	name = "Harris Enniss"
 	email = harris@enniss.net
 [alias]
-	lga = log --graph --oneline --decorate --all
-	amend = commit --amend
-	ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
+	lg = log --graph --oneline --all
+	lga = log --graph --oneline --branches --tags --remotes
+	changed = show --name-only --prety="format:"
+	amend = commit --amend --no-edit
+	rpo = remote prune origin
+	top = rev-parse --show-toplevel
+  stat = "show --stat"
+	uncommit = "reset --soft HEAD^"
+	unstage = reset HEAD
+	unamend = reset --soft "HEAD@{1}"
+	wip = commit --message 'wip' --no-verify
+
+[advice]
+	detachedHead = false
+[rebase]
+	autosquash = true
+	updateRefs = true
+[log]
+	date = iso-local
+[push]
+	default = current
+	autoSetupRemote= true
+
+
 [core]
 	excludesFile = ~/.gitignore
 [pull]
 	ff = only
 [diff]
 	algorithm = histogram
+	noprefix = true

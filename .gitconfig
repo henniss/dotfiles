@@ -6,11 +6,11 @@
 [alias]
 	lg = log --graph --oneline --all
 	lga = log --graph --oneline --branches --tags --remotes
-	changed = show --name-only --prety="format:"
+	changed = show --name-only --pretty="format:"
 	amend = commit --amend --no-edit
 	rpo = remote prune origin
 	top = rev-parse --show-toplevel
-  stat = "show --stat"
+	stat = "show --stat"
 	uncommit = "reset --soft HEAD^"
 	unstage = reset HEAD
 	unamend = reset --soft "HEAD@{1}"

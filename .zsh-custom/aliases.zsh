@@ -1,3 +1,3 @@
-alias yclip='xclip -selection clipboard'
+alias yclip='pbcopy'
 
 function gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ; }

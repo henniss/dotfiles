@@ -1,0 +1,9 @@
+#!/bin/sh
+# ~/bin/vim-noerr: vim wrapper for git, which aborts on exit 1 (e.g. after a harmless error during the session).
+vim "$@"
+status=$?
+# If it’s a generic error (1), override with success
+if [ $status -eq 1 ]; then
+    exit 0
+fi
+exit $status

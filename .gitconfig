@@ -4,17 +4,28 @@
 	name = "Harris Enniss"
 	email = harris@enniss.net
 [alias]
-	lg = log --graph --oneline --all
+	lg = ! ~/bin/git-log-local --graph --oneline --all
 	lga = log --graph --oneline --branches --tags --remotes
-	changed = show --name-only --prety="format:"
+	# Graph log of commits diverging between two refs ($1, $2); optional path filter ($3).
+	lg2 = ! "f() { git log --graph --oneline --full-history --simplify-merges ${1?} ${2?} ^$(git merge-base $1 $2)^@ -- \"$3\" ; } ; f"
+	changed = show --name-only --pretty="format:"
 	amend = commit --amend --no-edit
+	fixup = commit --fixup
+	detach = checkout --detach
+	# List files changed in a commit, prefixed with their path relative to cwd.
+	filediff = ! "cd -- \"${GIT_PREFIX:-.}\"; f() { git diff-tree --name-only -r --no-commit-id --line-prefix=$(grealpath -s --relative-to . \"$(git rev-parse --show-toplevel)\")/ \"$@\" ; } ; f"
 	rpo = remote prune origin
 	top = rev-parse --show-toplevel
-  stat = "show --stat"
+	stat = "show --stat"
 	uncommit = "reset --soft HEAD^"
 	unstage = reset HEAD
 	unamend = reset --soft "HEAD@{1}"
+	track = ! " f() { git checkout origin/${1?} && git checkout -b ${1?} && git branch -u origin/${1?} ${1?} ; };  f"
+	merged = ! "f() { git branch --merged | grep -Ev '(^\\*|^\\+|master|main|dev)' | tr -d ' '; }; f"
 	wip = commit --message 'wip' --no-verify
+	br = ! " f() { git branch --sort=-committerdate | head -10 ; }; f"
+	# List files marked skip-worktree (S) or assume-unchanged (h).
+	swt = ! " f() { git ls-files -v -- $1 | grep -E '^(S|h)'; } ; f"
 
 [advice]
 	detachedHead = false
@@ -30,8 +41,14 @@
 
 [core]
 	excludesFile = ~/.gitignore
+	attributesFile = ~/.gitattributes
+	editor = ~/bin/vim-noerr
 [pull]
 	ff = only
 [diff]
 	algorithm = histogram
 	noprefix = true
+[diff "plist"]
+	textconv = "f() { if command -v plutil >/dev/null 2>&1; then plutil -p \"$1\"; else cat \"$1\"; fi; }; f"
+[merge "ours"]
+	driver = true

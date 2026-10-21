@@ -1,0 +1,22 @@
+#! /bin/bash
+
+
+git_other_worktree_branches () {
+        local current_worktree
+        current_worktree=$(dirname $(git rev-parse --git-dir 2>/dev/null) )  || return 1
+        git worktree list --porcelain | awk -v current="$current_worktree" '
+        /^worktree / { in_current = ($2 == current) }
+        /^branch /   { if (!in_current) print $2 }
+      '
+}
+
+git_log_local () {
+        local excludes=()
+        while IFS= read -r branch
+        do
+                excludes+=(--decorate-refs-exclude="$branch")
+        done < <(git_other_worktree_branches)
+        git log --decorate-refs=refs/heads --decorate-refs=refs/tags --decorate-refs=refs/remotes "${excludes[@]}" "$@"
+}
+
+git_log_local "$@"

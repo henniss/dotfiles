@@ -1,0 +1,17 @@
+{
+    "editor.minimap.enabled": false,
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingQuotes": "never",
+    "git.openRepositoryInParentFolders": "never",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "workbench.colorTheme": "Default High Contrast",
+    "terminal.integrated.initialHint": false,
+    "workbench.startupEditor": "none",
+    "[makefile]": {
+        "editor.renderWhitespace": "all"
+    },
+    "makefile.configureOnOpen": false,
+    "extensions.ignoreRecommendations": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "explorer.confirmDragAndDrop": false
+}

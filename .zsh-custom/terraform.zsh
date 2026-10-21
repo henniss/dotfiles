@@ -39,6 +39,3 @@ tfstateobj_to_module() (
 		cat .terraform/modules/modules.json | jq -r --arg module "$sm" '.Modules[] | select(.Key == $module).Dir'
 	done
 )
-
-# Symlink the shared pre-commit config into the current repo and install the hook.
-function pc_init () { ln -s $(realpath ~/.pre-commit-config.yaml) . ; pre-commit install ; }

@@ -120,13 +120,6 @@ pkggo() {
   open $(printf "https://pkg.go.dev/%s" "${1?}")
 }
 
-# Curl the address $1, but resolve it using $2. Useful for curling load-balancers that aren't configured to respond to requests for their internal lb domain name.
-curl_alt_connect () { curl --connect-to $1:443:$2:443 https://$1 }
-
-exec_in_docker () {
-	docker exec --interactive --tty ${1?} ${2:-"/bin/sh"}
-}
-
 # SYNOPSIS
 #   manopt command opt
 #
@@ -155,45 +148,6 @@ manopt() {
     found { print; next }
     $0 ~ "(^|,)[[:blank:]]+" opt "([[:punct:][:space:]]|$)" { found=1; print }
   '
-}
-
-check_keypair() {
-    local private_key="$1"
-    local public_key="$2"
-
-    if [[ -z "$private_key" || -z "$public_key" ]]; then
-        echo "Usage: check_keypair <private_key> <public_key>" >&2
-        return 1
-    fi
-
-    if [[ ! -f "$private_key" ]]; then
-        echo "Error: private key not found: $private_key" >&2
-        return 1
-    fi
-
-    if [[ ! -f "$public_key" ]]; then
-        echo "Error: public key not found: $public_key" >&2
-        return 1
-    fi
-
-    local derived
-    derived=$(ssh-keygen -y -f "$private_key" 2>&1) || {
-        echo "Error: could not read private key: $derived" >&2
-        return 1
-    }
-
-    local stored
-    stored=$(awk '{print $1, $2}' "$public_key")
-
-    if [[ "$derived" == "$stored" ]]; then
-        echo "OK: keys match"
-        return 0
-    else
-        echo "MISMATCH: keys do not match" >&2
-        echo "derived: $derived" >&2
-        echo "stored: $stored" >&2
-        return 1
-    fi
 }
 
 # ---------------------------------------------------------------------------
@@ -320,34 +274,3 @@ tm() {
 }
 
 tmuxr() { tmux new-session -As0 ; }
-
-# Launch tmux with a 2x2 tiled layout.
-# Prints the current tmux prefix key in pane 1 (top-right).
-# Usage: tmux-quad [session-name]  (default session name: quad)
-tmux-quad() {
-    local session="${1:-quad}"
-
-    # Attach if session already exists
-    if tmux has-session -t "$session" 2>/dev/null; then
-        tmux attach-session -t "$session"
-        return
-    fi
-
-    tmux new-session -d -s "$session"
-
-    # Split into 4 panes: top-left, top-right, bottom-left, bottom-right
-    tmux split-window -h -t "$session"          # left | right
-    tmux split-window -v -t "$session:{start}.{left}"      # split left vertically
-    tmux split-window -v -t "$session:{start}.{right}"      # split right vertically
-
-    # In pane 1 (top-right), print the tmux prefix key
-    local prefix
-    prefix=$(tmux show-options -g prefix | awk '{print $2}')
-    tmux send-keys -t "$session:{start}.{top-right}" "echo 'tmux prefix: $prefix'" Enter
-
-    # Select pane top-left as active
-    tmux select-pane -t "$session:{start}.{top-left}"
-
-    tmux attach-session -t "$session"
-}
-alias tq="tmux-quad"

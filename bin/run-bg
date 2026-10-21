@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ID=${1:?usage: run-bg <id> -- <command...>}; shift
+[ "${1:-}" = "--" ] && shift
+DIR="$HOME/runs/$ID"
+mkdir -p "$DIR/artifacts"
+date -Iseconds > "$DIR/started"
+echo "$*" > "$DIR/cmd"
+echo "running" > "$DIR/status"
+nohup bash -c "
+  $* 2>&1 | tee -a '$DIR/log'
+  rc=\${PIPESTATUS[0]}
+  echo \$rc > '$DIR/exit_code'
+  [ \$rc -eq 0 ] && echo done > '$DIR/status' || echo failed > '$DIR/status'
+" > /dev/null 2>&1 &
+echo $! > "$DIR/pid"
+echo "started $ID (pid $(cat $DIR/pid))"

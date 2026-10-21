@@ -1,0 +1,31 @@
+repos:
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+        additional_dependencies:
+          - tomli
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--allow-multiple-documents, --unsafe]
+      - id: check-json
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-yaml
+      - id: mixed-line-ending
+        exclude: '._gitignore$'
+      - id: trailing-whitespace
+      - id: debug-statements
+      - id: forbid-new-submodules
+      - id: check-case-conflict
+      - id: check-merge-conflict
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        additional_dependencies: ["gibberish-detector"]
